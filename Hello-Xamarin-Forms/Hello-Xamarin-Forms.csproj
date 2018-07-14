@@ -6,12 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
-    <PackageReference Include="LaunchDarkly.Common" Version="1.0.1" />
+    <PackageReference Include="LaunchDarkly.Xamarin" Version="1.0.0-beta8" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MainViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\xamarin-client-private\src\LaunchDarkly.Xamarin\LaunchDarkly.Xamarin.csproj" />
   </ItemGroup>
 </Project>

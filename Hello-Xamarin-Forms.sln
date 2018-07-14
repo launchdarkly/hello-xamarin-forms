@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello-Xamarin-Forms.iOS", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello-Xamarin-Forms", "Hello-Xamarin-Forms\Hello-Xamarin-Forms.csproj", "{3884C2B2-F710-4995-97D3-3BFABD716F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaunchDarkly.Xamarin", "..\xamarin-client-private\src\LaunchDarkly.Xamarin\LaunchDarkly.Xamarin.csproj", "{BAE67BBE-6C1E-4A6C-AEBE-8E0C5E5CB1AF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
