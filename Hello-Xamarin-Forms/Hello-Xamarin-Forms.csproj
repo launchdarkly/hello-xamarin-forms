@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
-    <PackageReference Include="LaunchDarkly.Xamarin" Version="1.0.0-beta8" />
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
+    <PackageReference Include="LaunchDarkly.Xamarin" Version="1.0.0-beta16" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MainViewModel.cs" />

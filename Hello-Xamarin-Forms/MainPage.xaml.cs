@@ -35,7 +35,8 @@ namespace Hello_Xamarin_Forms
         public void SetupClient()
         {
             User user = User.WithKey(user_key);
-            client = LdClient.Init(mobile_key, user);
+            var timeSpan = TimeSpan.FromSeconds(10);
+            client = LdClient.Init(mobile_key, user, timeSpan);
             client.RegisterFeatureFlagListener(int_feature_flag, this);
             client.RegisterFeatureFlagListener(bool_feature_flag, this);
             client.RegisterFeatureFlagListener(string_feature_flag, this);
