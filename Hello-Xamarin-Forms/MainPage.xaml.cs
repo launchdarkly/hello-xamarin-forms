@@ -7,21 +7,20 @@ using Newtonsoft.Json.Linq;
 
 namespace Hello_Xamarin_Forms
 {
-    public partial class MainPage : ContentPage, IFeatureFlagListener
+    public partial class MainPage : ContentPage
     {
         // enter your mobile key here
-        public const string mobile_key = "";
+        public const string mobileKey = "";
 
         // change to or use the features flags your going to be testing with
         private const string featureFlagDefaultKey = "featureFlagThatDoesntExist";
-        private const string int_feature_flag = "int-feature-flag";
-        private const string bool_feature_flag = "boolean-feature-flag";
-        private const string string_feature_flag = "string-feature-flag";
-        private const string json_feature_flag = "json-feature-flag";
+        private const string intFeatureFlag = "int-feature-flag";
+        private const string boolFeatureFlag = "boolean-feature-flag";
+        private const string stringFeatureFlag = "string-feature-flag";
+        private const string jsonFeatureFlag = "json-feature-flag";
 
         // set to the user key you want to test with
-        public const string user_key = "";
-
+        public const string userKey = "user-key";
 
         IList<FeatureFlag> _flags = new List<FeatureFlag>();
 
@@ -34,83 +33,47 @@ namespace Hello_Xamarin_Forms
 
         public void SetupClient()
         {
-            User user = User.WithKey(user_key);
-            var timeSpan = TimeSpan.FromSeconds(10);
-            client = LdClient.Init(mobile_key, user, timeSpan);
-            client.RegisterFeatureFlagListener(int_feature_flag, this);
-            client.RegisterFeatureFlagListener(bool_feature_flag, this);
-            client.RegisterFeatureFlagListener(string_feature_flag, this);
-            client.RegisterFeatureFlagListener(json_feature_flag, this);
+            User user = User.WithKey(userKey);
+            client = LdClient.Init(mobileKey, user, TimeSpan.FromSeconds(10));
+            client.FlagChanged += FeatureFlagChanged;
 
             LoadFlags();
         }
 
         void LoadFlags()
         {
-            var intFlagValue = client.IntVariation(int_feature_flag, 0);
-            var intFlag = new FeatureFlag { FlagKey = int_feature_flag, FlagValue = intFlagValue };
-            Flag1.Text = intFlag.FlagKey + " value: " + intFlag.FlagValue;
+            var intFlagValue = client.IntVariation(intFeatureFlag, 0);
+            var intFlag = new FeatureFlag { FlagKey = intFeatureFlag, FlagValue = intFlagValue, FlagLabel = Flag1 };
 
-            var boolFlagValue = client.BoolVariation(bool_feature_flag, false);
-            var boolFlag = new FeatureFlag { FlagKey = bool_feature_flag, FlagValue = boolFlagValue };
-            Flag2.Text = boolFlag.FlagKey + " value: " + boolFlag.FlagValue;
+            var boolFlagValue = client.BoolVariation(boolFeatureFlag, false);
+            var boolFlag = new FeatureFlag { FlagKey = boolFeatureFlag, FlagValue = boolFlagValue, FlagLabel = Flag2 };
 
-            var stringFlagValue = client.StringVariation(string_feature_flag, String.Empty);
-            var stringFlag = new FeatureFlag { FlagKey = string_feature_flag, FlagValue = stringFlagValue };
-            Flag3.Text = stringFlag.FlagKey + " value: " + stringFlag.FlagValue;
+            var stringFlagValue = client.StringVariation(stringFeatureFlag, String.Empty);
+            var stringFlag = new FeatureFlag { FlagKey = stringFeatureFlag, FlagValue = stringFlagValue, FlagLabel = Flag3 };
 
             var defaultFlagValue = client.FloatVariation(featureFlagDefaultKey, 0.0f);
-            var defaultFlag = new FeatureFlag { FlagKey = featureFlagDefaultKey, FlagValue = defaultFlagValue };
-            Flag4.Text = defaultFlag.FlagKey + " value: " + defaultFlag.FlagValue;
+            var defaultFlag = new FeatureFlag { FlagKey = featureFlagDefaultKey, FlagValue = defaultFlagValue, FlagLabel = Flag4 };
 
-            var jsonFlagValue = client.JsonVariation(json_feature_flag, null);
-            var jsonFlag = new FeatureFlag { FlagKey = json_feature_flag, FlagValue = jsonFlagValue };
-            Flag5.Text = jsonFlag.FlagKey + " value: " + jsonFlag.FlagValue;
+            var jsonFlagValue = client.JsonVariation(jsonFeatureFlag, ImmutableJsonValue.FromJToken(null));
+            var jsonFlag = new FeatureFlag { FlagKey = jsonFeatureFlag, FlagValue = jsonFlagValue.AsJToken(), FlagLabel = Flag5 };
+
+            _flags = new List<FeatureFlag> { intFlag, boolFlag, stringFlag, defaultFlag, jsonFlag };
+            foreach (var f in _flags)
+            {
+                f.FlagLabel.Text = f.Description;
+            }
         }
 
-        public void FeatureFlagChanged(string featureFlagKey, JToken value)
+        public void FeatureFlagChanged(object sender, FlagChangedEventArgs args)
         {
-            string flagDescription = featureFlagKey + " value: " + value;
-
-            Device.BeginInvokeOnMainThread(() =>
+            foreach (var f in _flags)
             {
-                if (featureFlagKey == int_feature_flag)
-                    Flag1.Text = flagDescription;
-
-                if (featureFlagKey == bool_feature_flag)
-                    Flag2.Text = flagDescription;
-
-                if (featureFlagKey == string_feature_flag)
-                    Flag3.Text = flagDescription;
-
-                if (featureFlagKey == featureFlagDefaultKey)
-                    Flag4.Text = flagDescription;
-
-                if (featureFlagKey == json_feature_flag)
-                    Flag5.Text = flagDescription;
-                    
-            });
-        }
-
-        public void FeatureFlagDeleted(string featureFlagKey)
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                if (featureFlagKey == int_feature_flag)
-                    Flag1.Text = String.Empty;
-
-                if (featureFlagKey == bool_feature_flag)
-                    Flag2.Text = String.Empty;
-
-                if (featureFlagKey == string_feature_flag)
-                    Flag3.Text = String.Empty;
-
-                if (featureFlagKey == featureFlagDefaultKey)
-                    Flag4.Text = String.Empty;
-
-                if (featureFlagKey == json_feature_flag)
-                    Flag5.Text = String.Empty;
-            });
+                if (f.FlagKey == args.Key)
+                {
+                    f.FlagValue = args.NewValue; // we could also call client.BoolVariation(), etc.
+                    f.FlagLabel.Text = f.Description;
+                }
+            }
         }
     }
 
@@ -118,5 +81,7 @@ namespace Hello_Xamarin_Forms
     {
         public string FlagKey;
         public JToken FlagValue;
+        public Label FlagLabel;
+        public string Description => FlagKey + " value: " + FlagValue;
     }
 }
