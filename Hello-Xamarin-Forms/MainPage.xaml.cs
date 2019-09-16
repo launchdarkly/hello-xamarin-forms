@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using LaunchDarkly.Xamarin;
 using LaunchDarkly.Client;
-using Newtonsoft.Json.Linq;
 
 namespace Hello_Xamarin_Forms
 {
@@ -12,7 +11,7 @@ namespace Hello_Xamarin_Forms
         // enter your mobile key here
         public const string mobileKey = "";
 
-        // change to or use the features flags your going to be testing with
+        // change to or use the features flags you're going to be testing with
         private const string featureFlagDefaultKey = "featureFlagThatDoesntExist";
         private const string intFeatureFlag = "int-feature-flag";
         private const string boolFeatureFlag = "boolean-feature-flag";
@@ -29,7 +28,7 @@ namespace Hello_Xamarin_Forms
             InitializeComponent();
         }
 
-        ILdMobileClient client;
+        ILdClient client;
 
         public void SetupClient()
         {
@@ -43,19 +42,19 @@ namespace Hello_Xamarin_Forms
         void LoadFlags()
         {
             var intFlagValue = client.IntVariation(intFeatureFlag, 0);
-            var intFlag = new FeatureFlag { FlagKey = intFeatureFlag, FlagValue = intFlagValue, FlagLabel = Flag1 };
+            var intFlag = new FeatureFlag { FlagKey = intFeatureFlag, FlagValue = LdValue.Of(intFlagValue), FlagLabel = Flag1 };
 
             var boolFlagValue = client.BoolVariation(boolFeatureFlag, false);
-            var boolFlag = new FeatureFlag { FlagKey = boolFeatureFlag, FlagValue = boolFlagValue, FlagLabel = Flag2 };
+            var boolFlag = new FeatureFlag { FlagKey = boolFeatureFlag, FlagValue = LdValue.Of(boolFlagValue), FlagLabel = Flag2 };
 
             var stringFlagValue = client.StringVariation(stringFeatureFlag, String.Empty);
-            var stringFlag = new FeatureFlag { FlagKey = stringFeatureFlag, FlagValue = stringFlagValue, FlagLabel = Flag3 };
+            var stringFlag = new FeatureFlag { FlagKey = stringFeatureFlag, FlagValue = LdValue.Of(stringFlagValue), FlagLabel = Flag3 };
 
             var defaultFlagValue = client.FloatVariation(featureFlagDefaultKey, 0.0f);
-            var defaultFlag = new FeatureFlag { FlagKey = featureFlagDefaultKey, FlagValue = defaultFlagValue, FlagLabel = Flag4 };
+            var defaultFlag = new FeatureFlag { FlagKey = featureFlagDefaultKey, FlagValue = LdValue.Of(defaultFlagValue), FlagLabel = Flag4 };
 
-            var jsonFlagValue = client.JsonVariation(jsonFeatureFlag, ImmutableJsonValue.FromJToken(null));
-            var jsonFlag = new FeatureFlag { FlagKey = jsonFeatureFlag, FlagValue = jsonFlagValue.AsJToken(), FlagLabel = Flag5 };
+            var jsonFlagValue = client.JsonVariation(jsonFeatureFlag, LdValue.Null);
+            var jsonFlag = new FeatureFlag { FlagKey = jsonFeatureFlag, FlagValue = jsonFlagValue, FlagLabel = Flag5 };
 
             _flags = new List<FeatureFlag> { intFlag, boolFlag, stringFlag, defaultFlag, jsonFlag };
             foreach (var f in _flags)
@@ -80,7 +79,11 @@ namespace Hello_Xamarin_Forms
     class FeatureFlag
     {
         public string FlagKey;
-        public JToken FlagValue;
+
+        // For this demo, we'll store all of the flag values using the general-purpose LdValue type, even though
+        // we can always query flag values as a more specific type.
+        public LdValue FlagValue;
+
         public Label FlagLabel;
         public string Description => FlagKey + " value: " + FlagValue;
     }
