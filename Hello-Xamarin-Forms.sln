@@ -1,11 +1,11 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello-Xamarin-Forms.Android", "Hello-Xamarin-Forms.Android\Hello-Xamarin-Forms.Android.csproj", "{2FA5E3A7-3F92-4EAE-8142-72A7C0A81CA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinAndroidApp", "XamarinAndroidApp\XamarinAndroidApp.csproj", "{2FA5E3A7-3F92-4EAE-8142-72A7C0A81CA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello-Xamarin-Forms.iOS", "Hello-Xamarin-Forms.iOS\Hello-Xamarin-Forms.iOS.csproj", "{9CF7FF2A-E290-4F3F-AAD0-CE511E0202FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinIOSApp", "XamarinIOSApp\XamarinIOSApp.csproj", "{9CF7FF2A-E290-4F3F-AAD0-CE511E0202FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hello-Xamarin-Forms", "Hello-Xamarin-Forms\Hello-Xamarin-Forms.csproj", "{3884C2B2-F710-4995-97D3-3BFABD716F96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{3884C2B2-F710-4995-97D3-3BFABD716F96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
