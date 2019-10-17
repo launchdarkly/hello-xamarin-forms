@@ -3,7 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-namespace Hello_Xamarin_Forms
+namespace LaunchDarkly.Xamarin.Example
 {
     public partial class App : Application
     {

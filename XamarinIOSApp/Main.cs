@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace Hello_Xamarin_Forms.iOS
+namespace LaunchDarkly.Xamarin.Example
 {
     public class Application
     {
