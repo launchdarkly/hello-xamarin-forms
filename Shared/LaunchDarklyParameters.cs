@@ -6,18 +6,18 @@ namespace LaunchDarkly.Xamarin.Example
     // These values are used by both the Android and the iOS versions of the demo.
     public class LaunchDarklyParameters
     {
-        // Enter your mobile key here - the demo will not run without this
+        // Set MobileKey to your LaunchDarkly mobile key.
         public const string MobileKey = "";
 
-        // Enter the key of a boolean feature flag in your LaunchDarkly project.
-        public const string FlagKey = "test-flag";
+        // Set FlagKey to the feature flag key you want to evaluate.
+        public const string FlagKey = "my-boolean-flag";
 
-        // Set to the user key you want to test with
-        public const string UserKey = "test-user-key";
+        // Set up the user properties. This user should appear on your LaunchDarkly users dashboard soon after you run the demo.
+        public const string UserKey = "exmaple-user-key";
 
         // You may add any other desired user properties here
         public static readonly User DefaultUser = User.Builder(UserKey)
-            // for instance: .Name("test-user-name")
+            .Name("Sandy")
             .Build();
 
         // How long the application will wait for the SDK to connect to LaunchDarkly
